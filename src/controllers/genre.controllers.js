@@ -1,32 +1,32 @@
 const catchError = require('../utils/catchError');
-const { movie, genre, actor } = require('../models');
+const { genre } = require('../models');
 
 const getAll = catchError(async(req, res) => {
-    const results = await movie.findAll({ include: [genre, actor] });
+    const results = await genre.findAll();
     return res.json(results);
 });
 
 const create = catchError(async(req, res) => {
-    const result = await movie.create(req.body);
+    const result = await genre.create(req.body);
     return res.status(201).json(result);
 });
 
 const getOne = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await movie.findByPk(id);
+    const result = await genre.findByPk(id);
     if(!result) return res.sendStatus(404);
     return res.json(result);
 });
 
 const remove = catchError(async(req, res) => {
     const { id } = req.params;
-    await movie.destroy({ where: {id} });
+    await genre.destroy({ where: {id} });
     return res.sendStatus(204);
 });
 
 const update = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await movie.update(
+    const result = await genre.update(
         req.body,
         { where: {id}, returning: true }
     );
